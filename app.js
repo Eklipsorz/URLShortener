@@ -24,7 +24,7 @@ app.set('view engine', '.hbs')
 // set view path to /views
 app.set('views', process.cwd() + '/views')
 
-
+app.use('/', express.static('public'))
 
 app.get('/', (req, res) => {
   //  console.log('hi')

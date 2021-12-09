@@ -4,8 +4,6 @@ const URLIDModel = require('../URLIDModel')
 const seedData = require('./URLs.json').results
 
 
-console.log(seedData)
-
 db.once('open', async () => {
 
   await URLIDModel.create(seedData)
