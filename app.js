@@ -1,15 +1,35 @@
 const express = require('express')
-
-
-
+const { create } = require('express-handlebars')
 
 app = express()
+
+
 // define port
 const port = process.env.port || 3500
 
+// define an object which stores handlebars settings
+const handlebarsSettings = {
+  extname: '.hbs',
+  layoutsDir: 'views/layouts',
+  defaultLayout: 'main'
+}
 
-app.get('/', () => {
-  console.log('hi')
+// create a handlebars instance
+const handlebars = create(handlebarsSettings)
+
+// set view engine to handlebars engine
+app.engine('.hbs', handlebars.engine)
+app.set('view engine', '.hbs')
+
+// set view path to /views
+app.set('views', process.cwd() + '/views')
+
+
+
+app.get('/', (req, res) => {
+  //  console.log('hi')
+
+  res.render('index')
 })
 
 
