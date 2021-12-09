@@ -42,12 +42,22 @@ body {
     /* box model */
     width: 75%;
   }
+  .result-message {
+    /* box model */
+    width: 70%;
+  }
 }
+
+
 
 @media screen and (min-width: 900px) {
   .url-form {
     /* box model */
-    width: 45%;
+    width: 65%;
+  }
+  .result-message {
+    /* box model */
+    width: 50%;
   }
 }
 
@@ -68,3 +78,33 @@ body {
   background-color: #6A736F;
 }
 
+
+.result-message {
+
+  /* box model */
+  border: 1px solid #30A740;
+  padding: 1%;
+
+  /* display */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  /* font or other */
+  background-color: #F5FFF1;
+}
+
+.result-message p {
+  /* box model */
+  margin-bottom: 0;
+
+
+
+}
+
+.result-message button {
+
+  /* font or other */
+  background-color: #45BF56;
+  color: #FFFFFF;
+}
