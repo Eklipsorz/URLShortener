@@ -35,10 +35,8 @@ body {
 }
 
 
-
-
 @media screen and (max-width: 900px) {
-  .url-form {
+  .url-search-form {
     /* box model */
     width: 75%;
   }
@@ -51,7 +49,7 @@ body {
 
 
 @media screen and (min-width: 900px) {
-  .url-form {
+  .url-search-form {
     /* box model */
     width: 65%;
   }
@@ -65,18 +63,11 @@ body {
 
 .url-input {
   /* box model */
-  border-radius: 50px 0 0 50px;
+  border-radius: 50px 0px 0px 50px;
 }
 
 
-.url-input-btn {
-  /* box model */
-  border-radius: 0 50px 50px 0;
 
-  /* font or other */
-  color: #ffffff;
-  background-color: #6A736F;
-}
 
 
 .result-message {
@@ -107,4 +98,16 @@ body {
   /* font or other */
   background-color: #45BF56;
   color: #FFFFFF;
+}
+
+
+.url-input-btn {
+
+  overflow: hidden;
+  /* box model */
+  border-radius: 0px 50px 50px 0px !important;
+
+  /* font or other */
+  color: #ffffff;
+  background-color: #6A736F;
 }
