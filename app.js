@@ -5,7 +5,7 @@ app = express()
 
 
 // define port
-const port = process.env.port || 3500
+const port = 3500
 
 // define an object which stores handlebars settings
 const handlebarsSettings = {
