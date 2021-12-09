@@ -1,8 +1,9 @@
 const express = require('express')
 const { create } = require('express-handlebars')
+const router = require('./routes')
+
 
 app = express()
-
 
 // define port
 const port = 3500
@@ -26,11 +27,10 @@ app.set('views', process.cwd() + '/views')
 
 app.use('/', express.static('public'))
 
-app.get('/', (req, res) => {
-  //  console.log('hi')
-  res.render('index')
-})
+app.use('/', express.urlencoded({ extended: true }))
 
+
+app.use('/', router)
 
 app.listen(port, () => {
   console.log(`The express server is running at ${port}`)
