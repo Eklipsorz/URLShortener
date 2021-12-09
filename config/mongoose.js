@@ -6,7 +6,7 @@ const dbPort = 27017
 const dbName = 'URLShortener'
 
 
-mongoose.connect(`mongoose://localhost:${dbPort}/${dbName}`)
+mongoose.connect(`mongodb://localhost:${dbPort}/${dbName}`)
 const db = mongoose.connection
 
 
