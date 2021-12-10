@@ -9,7 +9,10 @@
 
 </form>
 
+{{#if result}}
 <div class="mt-3 result-message">
-  <p>縮短後: http://localhost:3000/awd21</p>
+  <p>縮短後: {{result}}</p>
   <button class="btn">Copy</button>
 </div>
+
+{{/if}}

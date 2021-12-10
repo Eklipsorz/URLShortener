@@ -1,4 +1,6 @@
 const express = require('express')
+// const path = require('path')
+// var favicon = require('serve-favicon')
 const { create } = require('express-handlebars')
 const router = require('./routes')
 const db = require('./config/mongoose')

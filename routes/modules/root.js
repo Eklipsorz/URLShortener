@@ -1,10 +1,15 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const generateURLID = require('../../utils/generateURLID')
 const URLIDModel = require('../../models/URLIDModel')
 
 
 const router = express.Router()
 
+
+router.get('/favicon.ico', (req, res) => {
+  console.log('shit')
+})
 
 
 router.use('/:resource', (req, res, next) => {
@@ -19,10 +24,12 @@ router.use('/:resource', (req, res, next) => {
 
   switch (true) {
     case method === 'GET' && regex.test(resource):
+      console.log('get first')
       type = '200-Redirect'
       requiredURL = resource
       break
     case method === 'POST' && resource === 'URLShorten':
+      console.log('post second')
       type = '200-Shorten'
       requiredURL = req.body.url
       break
@@ -32,15 +39,15 @@ router.use('/:resource', (req, res, next) => {
   }
 
   res.message = { type, resource, requiredURL }
+  console.log('message', res.message)
   next()
 
 })
 
 router.use('/:resource', (req, res, next) => {
 
-  console.log('second use')
   const conditionObject = {}
-  const { type, resource, requiredURL } = res.message
+  const { type, requiredURL } = res.message
 
   // determine type
   const property = type === '200-Redirect' ? 'URLID' : 'originURL'
@@ -52,13 +59,18 @@ router.use('/:resource', (req, res, next) => {
     .lean()
     .exec()
     .then(url => {
-      if (!url) {
+      if (type === '200-Redirect' && !url) {
         throw new Error('Not-Found-In-Database')
       }
       const property = type === '200-Redirect' ? 'originURL' : 'URLID'
-      res.message['result'] = url[property]
+      res.message['result'] = !url ? null : url[property]
+      console.log(res.message)
+      next()
     })
-    .catch(() => console.log('find failure'))
+    .catch(error => {
+      console.log('error is here')
+      next(error)
+    })
 
 
 
@@ -66,10 +78,33 @@ router.use('/:resource', (req, res, next) => {
 
 
 router.get('/:resource', (req, res) => {
-
+  res.redirect(res.message.result)
 })
 
 router.post('/URLShorten', (req, res) => {
+
+  let { requiredURL, result } = res.message
+  let isExistURL = Boolean(result)
+
+  if (isExistURL) {
+
+    console.log(req.hostname)
+    res.render('index', { result })
+    console.log('end')
+    return
+  }
+
+  // if (!isExistURL) {
+  //   const URLID = generateURLID(5)
+  //   const newURLData = new URLIDModel({
+  //     originURL: requiredURL,
+  //     URLID
+  //   })
+
+  //   newURLData.save()
+  //     .then(() => console.log('successfully transformed'))
+  //     .catch((error) => console.log(error))
+  // }
 
 })
 
