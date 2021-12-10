@@ -15,8 +15,8 @@ router.use('/:resource', (req, res, next) => {
 
   const method = req.method
   const resource = req.params.resource
-  const regex = new RegExp('[a-zA-z0-9]{5}')
-
+  const regex = new RegExp('^[a-zA-z0-9]{5}$')
+  console.log(regex.test(resource))
   switch (true) {
     case method === 'GET' && regex.test(resource):
       console.log('get first')
