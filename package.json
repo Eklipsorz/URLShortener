@@ -15,7 +15,6 @@
   "dependencies": {
     "express": "^4.17.1",
     "express-handlebars": "^6.0.2",
-    "mongoose": "^6.1.0",
-    "serve-favicon": "^2.5.0"
+    "mongoose": "^6.1.0"
   }
 }

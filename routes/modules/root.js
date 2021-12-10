@@ -7,11 +7,6 @@ const URLIDModel = require('../../models/URLIDModel')
 const router = express.Router()
 
 
-router.get('/favicon.ico', (req, res) => {
-  console.log('shit')
-})
-
-
 router.use('/:resource', (req, res, next) => {
 
 
@@ -34,7 +29,9 @@ router.use('/:resource', (req, res, next) => {
       requiredURL = req.body.url
       break
     default:
-      next(new Error('NOT-FOUND'))
+      const err = new Error('NOT-FOUND-IN-ROUTES')
+      err.type = 'NOT-FOUND-IN-ROUTES'
+      next(err)
       return
   }
 
@@ -114,7 +111,12 @@ router.get('/', (req, res) => {
 })
 
 router.use((err, req, res, next) => {
-  console.log('hi error')
+
+  switch (err.type) {
+    case 'NOT-FOUND-IN-ROUTES':
+      res.render('404')
+      break
+  }
 })
 
 

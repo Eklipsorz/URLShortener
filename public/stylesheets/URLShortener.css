@@ -111,3 +111,46 @@ body {
   color: #ffffff;
   background-color: #6A736F;
 }
+
+
+
+/* 搜尋不到東西時的頁面容器(含訊息和動畫) */
+.not-found-page {
+
+    /* Display */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* Box Model ok*/
+    width: 100%;
+    height: 50vh;
+
+    /* Font or other ok*/
+    text-align: center;
+}
+
+/* 搜尋不到東西時的顯示訊息 */
+.not-found-page h1 {
+    /* Display */
+    display: inline-block;
+
+    /* Box Model */
+    padding-right: 8px;
+
+    /* Font or other ok*/
+	font-size: 50px;
+    color: #888;
+
+    /* Animation */
+    /* 設定一輪0.5秒長度的動畫，並且無限循環，每一次動畫結束後都跟上一輪動畫效果呈現顛倒 */
+	animation: typing .5s alternate infinite;
+}
+
+/* 搜尋不到東西時的顯示訊息後的陰影動畫 */
+@keyframes typing {
+    /* 陰影出現在文字之後 */
+	from{box-shadow: inset -3px 0px 0px #888;}
+    /* 陰影變透明 */
+	to{box-shadow: inset -3px 0px 0px transparent;}
+}
