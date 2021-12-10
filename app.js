@@ -1,8 +1,7 @@
 const express = require('express')
 const { create } = require('express-handlebars')
-const fsPromises = require('fs').promises
 const router = require('./routes')
-
+const db = require('./config/mongoose')
 
 app = express()
 
