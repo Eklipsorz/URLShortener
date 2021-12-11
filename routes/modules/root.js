@@ -8,28 +8,33 @@ const URLIDModel = require('../../models/URLIDModel')
 const router = express.Router()
 
 
-router.use('/:resource', (req, res, next) => {
-
-
+router.use(/\/(.*)/, (req, res, next) => {
+  console.log('hiiiiiiiii')
   let type = ''
   let requiredURL = ''
 
+  const messageBody = req.body.url || ''
   const method = req.method
-  const resource = req.params.resource
+  const resource = req.params[0] || ''
   const regex = new RegExp('^[a-zA-z0-9]{5}$')
 
+
   switch (true) {
+    case method === 'GET' && req.originalUrl === '/':
+      console.log('hiiiii')
+      break
     case method === 'GET' && regex.test(resource):
       console.log('get first')
       type = '200-Redirect'
       requiredURL = resource
       break
-    case method === 'POST' && resource === 'URLShorten':
+    case method === 'POST' && req.originalUrl === '/' && messageBody.length > 0:
       console.log('post second')
       type = '200-Shorten'
-      requiredURL = req.body.url
+      requiredURL = messageBody
       break
     default:
+      console.log('inside error')
       const err = new Error('NOT-FOUND-IN-ROUTES')
       err.type = 'NOT-FOUND-IN-ROUTES'
       next(err)
@@ -77,11 +82,11 @@ router.get('/:resource', (req, res) => {
   res.redirect(res.message.result)
 })
 
-router.post('/URLShorten', (req, res, next) => {
+router.post('/', (req, res, next) => {
 
   let { requiredURL, result } = res.message
   let isExistURL = Boolean(result)
-
+  console.log('third hiiiii')
   if (isExistURL) {
     result = req.protocol + '://' + req.headers.host + '/' + result
     res.render('index', { result })
