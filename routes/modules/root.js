@@ -1,15 +1,13 @@
 const express = require('express')
 const mongoose = require('mongoose')
-
 const generateURLID = require('../../utils/generateURLID')
 const URLIDModel = require('../../models/URLIDModel')
-
 
 const router = express.Router()
 
 
 router.use(/\/(.*)/, (req, res, next) => {
-  console.log('hiiiiiiiii')
+
   let type = ''
   let requiredURL = ''
 
@@ -30,6 +28,7 @@ router.use(/\/(.*)/, (req, res, next) => {
       break
     case method === 'POST' && req.originalUrl === '/' && messageBody.length > 0:
       console.log('post second')
+      req.url = '/URLShorten'
       type = '200-Shorten'
       requiredURL = messageBody
       break
@@ -47,8 +46,13 @@ router.use(/\/(.*)/, (req, res, next) => {
 
 })
 
+router.get('/', (req, res) => {
+  res.render('index')
+})
+
 router.use('/:resource', (req, res, next) => {
 
+  console.log('hiDAWEWA')
   const conditionObject = {}
   const { type, requiredURL } = res.message
 
@@ -64,29 +68,26 @@ router.use('/:resource', (req, res, next) => {
       if (type === '200-Redirect' && !url) {
         const error = new Error('NOT-FOUND-IN-DATABASE')
         error.type = 'NOT-FOUND-IN-DATABASE'
-        throw error
       }
+      console.log('test find', url)
       const property = type === '200-Redirect' ? 'originURL' : 'URLID'
       res.message['result'] = !url ? null : url[property]
-
       next()
     })
     .catch(error => next(error))
 
-
-
 })
-
 
 router.get('/:resource', (req, res) => {
   res.redirect(res.message.result)
 })
 
-router.post('/', (req, res, next) => {
+router.post('/URLShorten', (req, res, next) => {
+
 
   let { requiredURL, result } = res.message
   let isExistURL = Boolean(result)
-  console.log('third hiiiii')
+
   if (isExistURL) {
     result = req.protocol + '://' + req.headers.host + '/' + result
     res.render('index', { result })
@@ -111,9 +112,7 @@ router.post('/', (req, res, next) => {
 })
 
 
-router.get('/', (req, res) => {
-  res.render('index')
-})
+
 
 router.use((err, req, res, next) => {
 
