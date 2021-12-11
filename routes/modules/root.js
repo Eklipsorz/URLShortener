@@ -1,6 +1,8 @@
 const express = require('express')
 const mongoose = require('mongoose')
+// load a function which generates URLID (xxxx)
 const generateURLID = require('../../utils/generateURLID')
+
 const URLIDModel = require('../../models/URLIDModel')
 
 const router = express.Router()
@@ -68,6 +70,7 @@ router.use('/:resource', (req, res, next) => {
       if (type === '200-Redirect' && !url) {
         const error = new Error('NOT-FOUND-IN-DATABASE')
         error.type = 'NOT-FOUND-IN-DATABASE'
+        throw error
       }
       console.log('test find', url)
       const property = type === '200-Redirect' ? 'originURL' : 'URLID'
