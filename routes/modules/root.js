@@ -3,11 +3,28 @@ const mongoose = require('mongoose')
 // load a function which generates URLID (xxxx)
 const generateURLID = require('../../utils/generateURLID')
 
+// load the URLID Model
 const URLIDModel = require('../../models/URLIDModel')
 
 const router = express.Router()
 
+// There three valid routes 
+// 1st Route GET /  : GET Index Page
+// 2nd Route POST / : Shorten URL and store that into Database
+// 3rd Route GET /:resource : Get originURL from DB and redirect to originURL
 
+
+
+// first middleware : 
+// Target: filter out the invalid routes and leave some valid routes 
+// The invalid routes are transmitted to a middleware for handling error
+// On the valid routes: 
+// 1. POST / or GET /:resource : the system add message obejct to request 
+// object to help second middleware identify these routes and do some 
+// database query and finally they are transmitted to next middleware for 
+// handling database query
+// 
+// 2. GET / :  It's transmitted to a middleware for getting index page.
 router.use(/\/(.*)/, (req, res, next) => {
 
   let type = ''
@@ -21,21 +38,17 @@ router.use(/\/(.*)/, (req, res, next) => {
 
   switch (true) {
     case method === 'GET' && req.originalUrl === '/':
-      console.log('hiiiii')
       break
     case method === 'GET' && regex.test(resource):
-      console.log('get first')
       type = '200-Redirect'
       requiredURL = resource
       break
     case method === 'POST' && req.originalUrl === '/' && messageBody.length > 0:
-      console.log('post second')
       req.url = '/URLShorten'
       type = '200-Shorten'
       requiredURL = messageBody
       break
     default:
-      console.log('inside error')
       const err = new Error('NOT-FOUND-IN-ROUTES')
       err.type = 'NOT-FOUND-IN-ROUTES'
       next(err)
@@ -52,6 +65,8 @@ router.get('/', (req, res) => {
   res.render('index')
 })
 
+// second middleware :
+// Target: find corresponded URLID or originURL from DB according to request
 router.use('/:resource', (req, res, next) => {
 
   console.log('hiDAWEWA')
@@ -80,7 +95,7 @@ router.use('/:resource', (req, res, next) => {
     .catch(error => next(error))
 
 })
-
+// third middleware 
 router.get('/:resource', (req, res) => {
   res.redirect(res.message.result)
 })
@@ -116,7 +131,7 @@ router.post('/URLShorten', (req, res, next) => {
 
 
 
-
+// a middleware for error handling
 router.use((err, req, res, next) => {
 
   console.log('hi error')

@@ -1,10 +1,10 @@
 // obtain a set of html elements
 // copyBtn = a copy button
 // URLForm = a URL Shortener Bar
-// URLForm = a submit button of a URL Shortener Bar 
+// URLFormBtn = a submit button of a URL Shortener Bar 
 const copyBtn = document.querySelector('#copy-btn')
-const URLForm = document.querySelector('#url-search-form')
-const URLFormBtn = document.querySelector('#url-form-btn')
+const URLForm = document.querySelector('#url-shortener-form')
+const URLFormBtn = document.querySelector('#url-shortener-form-btn')
 
 
 // define a event handler for clicking CopyBtn

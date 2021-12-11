@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const db = require('../../config/mongoose')
 
-// load the URL Model
+// load the URLID Model
 const URLIDModel = require('../URLIDModel')
 
 // define a set of seed data

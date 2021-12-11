@@ -26,14 +26,18 @@
   <link rel="stylesheet" href="/stylesheets/URLShortener.css">
   <script defer src="/javascripts/URLShortener.js"></script>
   {{!-- load sweetalert2 --}}
-  <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
+  <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
+  {{!-- URL Container --}}
   <main class="container mt-5 url-container">
+    {{!-- a title for URL Container --}}
     <h1 class="mb-3">URL Shortener</h1>
+    {{!-- image for URL container --}}
     <img src="https://assets-lighthouse.alphacamp.co/uploads/image/file/16716/ExportedContentImage_00.png" alt="icon"
       class="img-fluid mb-3 url-container-icon">
+
     {{{ body }}}
 
 
