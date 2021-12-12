@@ -2,6 +2,7 @@
 const express = require('express')
 const { create } = require('express-handlebars')
 
+const app = express()
 
 // define application's router
 const router = require('./routes')
@@ -9,8 +10,6 @@ const router = require('./routes')
 // begin to connect to MongoDB via mongoose
 const db = require('./config/mongoose')
 
-
-app = express()
 
 // define port
 const port = 3500
@@ -38,9 +37,9 @@ app.use('/', express.static('public'))
 // set body parser for post message
 app.use('/', express.urlencoded({ extended: true }))
 
+
 // bind router to / 
 app.use('/', router)
-
 
 // start to listening at port 3500
 app.listen(port, () => {

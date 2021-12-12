@@ -4,6 +4,10 @@ const rootRoutes = require('./modules/root')
 const router = express.Router()
 
 
-router.use('/', rootRoutes)
+router.get('/', (req, res) => {
 
-exports = module.exports = rootRoutes
+  res.render('error')
+})
+// router.use('/', rootRoutes)
+
+exports = module.exports = router

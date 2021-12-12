@@ -14,7 +14,6 @@ const router = express.Router()
 // 3rd Route GET /:resource : Get originURL from DB and redirect to originURL
 
 
-
 // first middleware : 
 // Target: filter out the invalid routes and leave some valid routes 
 // The invalid routes are transmitted to a middleware for handling error
@@ -49,6 +48,7 @@ router.use(/\/(.*)/, (req, res, next) => {
       requiredURL = messageBody
       break
     default:
+      // 404 
       const err = new Error('NOT-FOUND-IN-ROUTES')
       err.type = 'NOT-FOUND-IN-ROUTES'
       next(err)
@@ -69,7 +69,7 @@ router.get('/', (req, res) => {
 // Target: find corresponded URLID or originURL from DB according to request
 router.use('/:resource', (req, res, next) => {
 
-  console.log('hiDAWEWA')
+  console.log('second middleware')
   const conditionObject = {}
   const { type, requiredURL } = res.message
 
@@ -92,7 +92,12 @@ router.use('/:resource', (req, res, next) => {
       res.message['result'] = !url ? null : url[property]
       next()
     })
-    .catch(error => next(error))
+    // 400 
+    .catch(error => {
+      console.log(Object.keys(error))
+      console.log('db error')
+      next(error)
+    })
 
 })
 // third middleware 
@@ -117,7 +122,7 @@ router.post('/URLShorten', (req, res, next) => {
     URLID
   })
 
-
+  // 500
   newURLData.save()
     .then(() => {
       result = req.protocol + '://' + req.headers.host + '/' + URLID
@@ -138,13 +143,16 @@ router.use((err, req, res, next) => {
   const errorType = err.type
   switch (errorType) {
     case 'NOT-FOUND-IN-ROUTES':
-      res.render('404', {
+      res.status(404)
+      res.render('error', {
         errMessage: '抱歉！ 找不到頁面'
       })
       break
-    case 'CANNOT-ADD-DATA-IN-DATABASE':
     case 'NOT-FOUND-IN-DATABASE':
-      res.render('404', {
+
+    case 'CANNOT-ADD-DATA-IN-DATABASE':
+      res.status(500)
+      res.render('error', {
         errMessage: '該網址無法正常轉址'
       })
       break

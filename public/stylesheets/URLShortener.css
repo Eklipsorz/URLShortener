@@ -114,43 +114,45 @@ body {
 
 
 
-/* 搜尋不到東西時的頁面容器(含訊息和動畫) */
-.not-found-page {
+/* a page showing error message */
+.error-message-page {
 
-    /* Display */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  /* Display */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 
-    /* Box Model */
-    width: 100%;
-    height: 25vh;
+  /* Box Model */
+  width: 100%;
+  height: 25vh;
+  
 
-    /* Font or other */
-    text-align: center;
+  /* Font or other */
+  text-align: center;
+  font-size: 18px;
+  color: #888;
 }
 
-/* 搜尋不到東西時的顯示訊息 */
-.not-found-page h1 {
-    /* Display */
-    display: inline-block;
+/* a title on error-message-page */
+.error-message-page h1 {
+  /* Display */
+  display: inline-block;
 
-    /* Box Model */
-    padding-right: 8px;
+  /* Box Model */
+  padding-right: 8px;
 
-    /* Font or other */
+  /* Font or other */
 	font-size: 50px;
-    color: #888;
 
-    /* Animation */
-    /* 設定一輪0.5秒長度的動畫，並且無限循環，每一次動畫結束後都跟上一輪動畫效果呈現顛倒 */
+  /* Animation */
 	animation: typing .5s alternate infinite;
 }
 
-/* 搜尋不到東西時的顯示訊息後的陰影動畫 */
+/* simulate that case a user is typing something  */
 @keyframes typing {
-    /* 陰影出現在文字之後 */
+  /* render shadow behind text */
 	from{box-shadow: inset -3px 0px 0px #888;}
-    /* 陰影變透明 */
+  /* the shadow become transparent */
 	to{box-shadow: inset -3px 0px 0px transparent;}
 }
