@@ -48,7 +48,6 @@ router.use(/\/(.*)/, (req, res, next) => {
       requiredURL = messageBody
       break
     default:
-      // 404 
       const err = new Error('NOT-FOUND-IN-ROUTES')
       err.type = 'NOT-FOUND-IN-ROUTES'
       next(err)
@@ -87,15 +86,13 @@ router.use('/:resource', (req, res, next) => {
         error.type = 'NOT-FOUND-IN-DATABASE'
         throw error
       }
-      console.log('test find', url)
       const property = type === '200-Redirect' ? 'originURL' : 'URLID'
       res.message['result'] = !url ? null : url[property]
       next()
     })
     // 400 
     .catch(error => {
-      console.log(Object.keys(error))
-      console.log('db error')
+      error.type = 'NOT-FOUND-IN-DATABASE'
       next(error)
     })
 
@@ -125,6 +122,7 @@ router.post('/URLShorten', (req, res, next) => {
   // 500
   newURLData.save()
     .then(() => {
+      throw new Error()
       result = req.protocol + '://' + req.headers.host + '/' + URLID
       res.render('index', { result })
     })
@@ -140,24 +138,34 @@ router.post('/URLShorten', (req, res, next) => {
 router.use((err, req, res, next) => {
 
   console.log('hi error')
+
+
   const errorType = err.type
+  let code = 0
+  let reason = ''
+  let handler = `將於 <span id="countdown-timer">10</span> 秒自動導向首頁`
+
   switch (errorType) {
     case 'NOT-FOUND-IN-ROUTES':
-      res.status(404)
-      res.render('error', {
-        errMessage: '抱歉！ 找不到頁面'
-      })
+      code = 404
+      reason = '抱歉！找不到頁面'
       break
     case 'NOT-FOUND-IN-DATABASE':
-
+      code = 400
+      reason = '沒有對應網址'
+      handler = `將於 <span id="countdown-timer">5</span> 秒自動導向上一頁`
+      break
     case 'CANNOT-ADD-DATA-IN-DATABASE':
-      res.status(500)
-      res.render('error', {
-        errMessage: '該網址無法正常轉址'
-      })
+      code = 500
+      reason = '無法正常縮短網址'
       break
   }
 
+
+
+  const errorMessage = { code, reason, handler }
+  res.status(code)
+  res.render('error', { errorMessage })
 
 })
 

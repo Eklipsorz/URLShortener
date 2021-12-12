@@ -43,6 +43,10 @@ function onURLFormBtnClicked(event) {
 
 
 // add some event listeners to copyBtn, URLForm and URLFormBtn
-copyBtn.addEventListener('click', onCopyBtnClicked)
+
+if (copyBtn) {
+  copyBtn.addEventListener('click', onCopyBtnClicked)
+}
+
 URLForm.addEventListener('submit', onURLFormSubmitted)
 URLFormBtn.addEventListener('click', onURLFormBtnClicked)
