@@ -30,6 +30,8 @@ router.use(/\/(.*)/, (req, res, next) => {
   let type = ''
   let requiredURL = ''
   let url = ''
+
+
   // make the content user inputs be more valid
   if (Object.keys(req.body).length > 0) {
     const regex = new RegExp('^(https:\/\/|http:\/\/).*\/.*')
@@ -125,7 +127,7 @@ router.post('/URLShorten', (req, res, next) => {
 
   if (isExistURL) {
     result = req.protocol + '://' + req.headers.host + '/' + result
-    res.render('index', { result })
+    res.render('index', { requiredURL, result })
     return
   }
   const URLID = generateURLID(5)
@@ -138,7 +140,7 @@ router.post('/URLShorten', (req, res, next) => {
   newURLData.save()
     .then(() => {
       result = req.protocol + '://' + req.headers.host + '/' + URLID
-      res.render('index', { result })
+      res.render('index', { requiredURL, result })
     })
     .catch(error => {
       error.type = 'CANNOT-ADD-DATA-IN-DATABASE'
