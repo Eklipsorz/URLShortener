@@ -26,14 +26,29 @@ const router = express.Router()
 // 2. GET / :  It's transmitted to a middleware for getting index page.
 router.use(/\/(.*)/, (req, res, next) => {
 
+
   let type = ''
   let requiredURL = ''
+  let url = ''
+  // make the content user inputs be more valid
+  if (Object.keys(req.body).length > 0) {
+    const regex = new RegExp('^(https:\/\/|http:\/\/).*\/.*')
+    // trim some additional spaces
+    url = req.body.url.trim()
 
-  const messageBody = req.body.url || ''
+    // if url is http://hostname:port or https://hostname:port
+    // the system add '/' suffix to end of the url 
+    // e.g., http://localhost  -> http://localhost/
+    // but if url is http://localhost:port /path, it do nothing.
+    url = !regex.test(url) ? url + '/' : url
+
+  }
+
+
+  const messageBody = url
   const method = req.method
   const resource = req.params[0] || ''
   const regex = new RegExp('^[a-zA-z0-9]{5}$')
-
 
   switch (true) {
     case method === 'GET' && req.originalUrl === '/':
@@ -122,7 +137,6 @@ router.post('/URLShorten', (req, res, next) => {
   // 500
   newURLData.save()
     .then(() => {
-      throw new Error()
       result = req.protocol + '://' + req.headers.host + '/' + URLID
       res.render('index', { result })
     })

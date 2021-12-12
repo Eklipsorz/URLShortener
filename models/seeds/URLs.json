@@ -1,15 +1,15 @@
 {
   "results": [
     {
-      "originURL": "https://stackoverflow.com",
+      "originURL": "https://stackoverflow.com/",
       "URLID": "abc12"
     },
     {
-      "originURL": "https://about.gitlab.com",
+      "originURL": "https://about.gitlab.com/",
       "URLID": "efg12"
     },
     {
-      "originURL": "https://www.quora.com",
+      "originURL": "https://www.quora.com/",
       "URLID": "hij12"
     }
   ]
