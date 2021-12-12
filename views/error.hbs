@@ -1,6 +1,11 @@
 {{!-- error message for 404 --}}
 <div class="mt-4 error-message-page">
-  <h1> 404 </h1>
-  <p style=""> 沒有對應網址 </p>
-  <p>You will be redirected in 3 secs</p>
+  <h1> {{ errorMessage.code }}</h1>
+  <p> {{ errorMessage.reason }} </p>
+  <p>{{{ errorMessage.handler }}}</p>
 </div>
+
+<script src="/javascripts/errorPage.js"></script>
+
+
+{{!-- 將於 <span id="countdown-timer">3</span> 秒自動導向上ㄧ頁 --}}
