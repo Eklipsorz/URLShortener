@@ -8,6 +8,10 @@ const URLIDModel = require('../../models/URLIDModel')
 
 const router = express.Router()
 
+
+const maxSecond = 10
+
+
 // There three valid routes 
 // 1st Route GET /  : GET Index Page
 // 2nd Route POST / : Shorten URL and store that into Database
@@ -159,7 +163,7 @@ router.use((err, req, res, next) => {
   const errorType = err.type
   let code = 0
   let reason = ''
-  let handler = `將於 <span id="countdown-timer">10</span> 秒自動導向首頁`
+  let handler = `將於 <span id="countdown-timer">${maxSecond}</span> 秒自動導向首頁`
 
   switch (errorType) {
     case 'NOT-FOUND-IN-ROUTES':
@@ -169,7 +173,7 @@ router.use((err, req, res, next) => {
     case 'NOT-FOUND-IN-DATABASE':
       code = 400
       reason = '沒有對應網址'
-      handler = `將於 <span id="countdown-timer">5</span> 秒自動導向上一頁`
+      handler = `將於 <span id="countdown-timer">${maxSecond}</span> 秒自動導向上一頁`
       break
     case 'CANNOT-ADD-DATA-IN-DATABASE':
       code = 500
