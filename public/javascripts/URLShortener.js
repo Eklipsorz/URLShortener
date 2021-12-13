@@ -26,10 +26,13 @@ function onURLFormSubmitted(event) {
 
   // close default event handler 
   if (!URLForm.checkValidity()) {
-    const resultContent = document.querySelector('#result-message')
+    // obtain result message object with ID "result-message"
+    const resultMessage = document.querySelector('#result-message')
     event.preventDefault()
     event.stopPropagation()
-    resultContent.remove()
+
+    // remove previous content message object when user inputs nothing
+    resultMessage.remove()
   }
 
 }
