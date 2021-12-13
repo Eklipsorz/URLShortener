@@ -159,7 +159,7 @@ router.use('/:resource', (req, res, next) => {
 
 // GET / route: render a index page
 router.get('/', (req, res) => {
-  res.render('index')
+  res.render('index', { result: null })
 })
 
 // GET /:resource: redirect to the corresponding URL according to query result

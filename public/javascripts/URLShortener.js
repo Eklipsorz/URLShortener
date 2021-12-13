@@ -26,8 +26,10 @@ function onURLFormSubmitted(event) {
 
   // close default event handler 
   if (!URLForm.checkValidity()) {
+    const resultContent = document.querySelector('#result-message')
     event.preventDefault()
     event.stopPropagation()
+    resultContent.remove()
   }
 
 }
