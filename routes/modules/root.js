@@ -216,20 +216,25 @@ router.post('/URLShorten', (req, res, next) => {
 router.use((err, req, res, next) => {
 
   const errorType = err.type
+  // the followings are properties of an error message 
   let code = 0
   let reason = ''
   let handler = `將於 <span id="countdown-timer">${maxSecond}</span> 秒自動導向首頁`
 
+  // add an error message according to error type 
   switch (errorType) {
+    // If error is from invalid route, that means 404
     case 'NOT-FOUND-IN-ROUTES':
       code = 404
       reason = '抱歉！找不到頁面'
       break
+    // If URL doesn't in database, that means 400
     case 'NOT-FOUND-IN-DATABASE':
       code = 400
       reason = '沒有對應網址'
       handler = `將於 <span id="countdown-timer">${maxSecond}</span> 秒自動導向上一頁`
       break
+    // If the system add URL into database, that means 500
     case 'CANNOT-ADD-DATA-IN-DATABASE':
       code = 500
       reason = '無法正常縮短網址'
@@ -238,7 +243,9 @@ router.use((err, req, res, next) => {
 
 
   const errorMessage = { code, reason, handler }
+  // response with status code
   res.status(code)
+  // render a error page with an error message
   res.render('error', { errorMessage })
 
 })
