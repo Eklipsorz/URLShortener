@@ -31,7 +31,7 @@ function systemErrorHandler(err, req, res, next) {
       reason = '抱歉！找不到頁面'
       break
     // If the system add URL into database, that means 500
-    case 'CANNOT-ADD-DATA-IN-DATABASE':
+    case 'CANNOT-ADD-IN-DATABASE':
       code = 500
       reason = '無法正常縮短網址'
       break

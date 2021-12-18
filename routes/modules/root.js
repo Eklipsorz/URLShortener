@@ -1,5 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
+
+const url = require('url')
 // load a function which generates URLID (xxxx)
 const generateURLID = require('../../utils/generateURLID')
 
@@ -54,6 +56,45 @@ router.get(/\/([a-zA-Z0-9]{5})$/, (req, res, next) => {
 // if URL from input bar exist in database, the system just render a index
 // page with query result
 router.post('/', (req, res, next) => {
+
+  const originURLObject = new URL(req.body.url.trim())
+  const originURL = url.format(originURLObject)
+
+  URLIDModel.findOne({ originURL })
+    .lean()
+    .then(url => {
+      // execute a query
+      // if result of query about GET /:resource is null, that mean it 
+      // cannot find any corresponding URL
+      if (!url) {
+
+        // create an error object and it transmit that to a middleware for error
+        // const error = new Error('NOT-FOUND-IN-DATABASE')
+        // error.type = 'NOT-FOUND-IN-DATABASE'
+        // throw error
+
+        const URLID = generateURLID(5)
+        return URLIDModel.create({ originURL, URLID })
+          .then(() => {
+            const result = req.protocol + '://' + req.headers.host + '/' + URLID
+            res.render('index', { originURL, result })
+          })
+
+      }
+
+      // if result of rest queries is not null, that mean it successfully find
+      // the corresponding URL and transmit that to third middleware
+      const result = req.protocol + '://' + req.headers.host + '/' + url.URLID
+      res.render('index', { originURL, result })
+    })
+    // accept an error from result of query and transmit that to a middleware
+    // for handling error
+    .catch(error => {
+      error.type = 'CANNOT-ADD-IN-DATABASE'
+      next(error)
+    })
+
+
 
 })
 
