@@ -8,7 +8,7 @@ const app = express()
 const router = require('./routes')
 
 // load error handler for route and a set of routes for valid route
-const { notFoundPageHandle, systemErrorHandler } = require('./utils/errorHandler')
+const { notFoundPageHandler, systemErrorHandler } = require('./utils/errorHandler')
 
 
 // begin to connect to MongoDB via mongoose
@@ -46,7 +46,7 @@ app.use('/', express.urlencoded({ extended: true }))
 app.use('/', router)
 
 // handling not-found page
-app.use('/', notFoundPageHandle)
+app.use('/', notFoundPageHandler)
 
 // handling all error in this system
 app.use('/', systemErrorHandler)

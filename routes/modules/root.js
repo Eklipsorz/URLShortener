@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
 
 // GET /:resource: redirect to the corresponding URL according to query result
 // resource string is combined with a-z, A-Z and 0-9 and string length is 5
-router.get(/\/([a-zA-Z0-9]{5})$/, (req, res, next) => {
+router.get(/^\/([a-zA-Z0-9]{5})$/, (req, res, next) => {
 
   const URLID = req.params[0]
 

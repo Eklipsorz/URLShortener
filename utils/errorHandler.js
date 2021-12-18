@@ -2,7 +2,7 @@
 const maxSecond = 10
 
 // handling for not-found page 
-function notFoundPageHandle(req, res) {
+function notFoundPageHandler(req, res) {
   // emit an error to another error handler, i.e., systemErrorHandler
   const error = new Error()
   error.type = 'NOT-FOUND-PAGE'
@@ -48,4 +48,4 @@ function systemErrorHandler(err, req, res, next) {
 
 }
 
-exports = module.exports = { notFoundPageHandle, systemErrorHandler }
+exports = module.exports = { notFoundPageHandler, systemErrorHandler }
