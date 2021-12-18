@@ -7,6 +7,10 @@ const app = express()
 // define application's router
 const router = require('./routes')
 
+// load error handler for route and a set of routes for valid route
+const { notFoundPageHandle, systemErrorHandler } = require('./utils/errorHandler')
+
+
 // begin to connect to MongoDB via mongoose
 const db = require('./config/mongoose')
 
@@ -40,6 +44,13 @@ app.use('/', express.urlencoded({ extended: true }))
 
 // bind router to / 
 app.use('/', router)
+
+// handling not-found page
+app.use('/', notFoundPageHandle)
+
+
+// handling all error in this system
+app.use('/', systemErrorHandler)
 
 // start to listening at port 3500
 app.listen(port, () => {
