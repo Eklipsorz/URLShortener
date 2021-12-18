@@ -20,7 +20,7 @@ function countDownInErrorPage() {
   if (!restSecond) {
 
     // get error code (status code)
-    const errorCode = document.querySelector('#error-code').dataset.code
+    const errorType = document.querySelector('#error-message-page').dataset.error
 
     // stop counting down
     clearInterval(intervalTimer)
@@ -29,7 +29,7 @@ function countDownInErrorPage() {
     // if error code is 404 or 500, then it help user redirect to index page
     // if error code is 400 or, then it help user redirect to previous page 
     // user looked up
-    errorCode === '400' ? window.history.back(-1) : window.location.replace("/")
+    errorType === 'NOT-FOUND-IN-DATABASE' ? window.history.back(-1) : window.location.replace("/")
 
   }
 

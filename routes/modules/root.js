@@ -14,8 +14,36 @@ router.get('/', (req, res) => {
 })
 
 // GET /:resource: redirect to the corresponding URL according to query result
-router.get(/\/[a-zA-Z0-9]{5}$/, (req, res, next) => {
-  console.log(Object.keys(req))
+// resource string is combined with a-z, A-Z and 0-9 and string length is 5
+router.get(/\/([a-zA-Z0-9]{5})$/, (req, res, next) => {
+
+  const URLID = req.params[0]
+
+  URLIDModel.findOne({ URLID })
+    .lean()
+    .then(url => {
+      // execute a query
+      // if result of query about GET /:resource is null, that mean it 
+      // cannot find any corresponding URL
+      if (!url) {
+
+        // create an error object and it transmit that to a middleware for error
+        const error = new Error('NOT-FOUND-IN-DATABASE')
+        error.type = 'NOT-FOUND-IN-DATABASE'
+        throw error
+      }
+      // if result of rest queries is not null, that mean it successfully find
+      // the corresponding URL and transmit that to third middleware
+      res.redirect(url.originURL)
+    })
+    // accept an error from result of query and transmit that to a middleware
+    // for handling error
+    .catch(error => {
+      error.type = !error.type ? 'CANNOT-FIND-IN-DATABASE' : error.type
+      next(error)
+    })
+
+
 })
 
 // POST /: render a index page with query result

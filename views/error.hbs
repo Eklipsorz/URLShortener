@@ -1,6 +1,6 @@
 {{!-- error message for 404 --}}
-<div class="mt-4 error-message-page">
-  <h1 id="error-code" data-code={{ errorMessage.code }}> {{ errorMessage.code }}</h1>
+<div class="mt-4 error-message-page" id="error-message-page" data-error="{{ errorMessage.errorType }}">
+  <h1> {{ errorMessage.code }}</h1>
   <p> {{ errorMessage.reason }} </p>
   <p>{{{ errorMessage.handler }}}</p>
 </div>
